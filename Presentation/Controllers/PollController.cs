@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using DataAccess;
 using Domain;
 
@@ -13,12 +14,14 @@ namespace Presentation.Controllers
             _pollRepository = pollRepository;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Create(string title, string option1, string option2, string option3)
         {
@@ -37,6 +40,7 @@ namespace Presentation.Controllers
             return View(polls);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -47,6 +51,7 @@ namespace Presentation.Controllers
             return View(poll);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Edit(Poll poll)
         {
@@ -57,6 +62,7 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -64,6 +70,7 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Vote(int id)
         {
@@ -74,6 +81,7 @@ namespace Presentation.Controllers
             return View(poll);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Vote(int pollId, int selectedOption)
         {
@@ -81,7 +89,6 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
         public IActionResult Results(int id)
         {
             var poll = _pollRepository.GetPollById(id);

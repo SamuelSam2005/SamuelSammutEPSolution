@@ -21,18 +21,29 @@
                 <td>@poll.Title</td>
                 <td>@poll.DateCreated.ToString("g")</td>
                 <td>
-                    <a asp-action="Vote" asp-route-id="@poll.Id" class="btn btn-sm btn-info me-2" aria-label="Vote on @poll.Title">Vote</a>
-                    <a asp-action="Edit" asp-route-id="@poll.Id" class="btn btn-sm btn-warning me-2" aria-label="Edit @poll.Title">Edit</a>
-                    <a asp-action="Results" asp-route-id="@poll.Id" class="btn btn-sm btn-primary me-2" aria-label="View results of @poll.Title">Results</a>
-                    <form asp-action="Delete" asp-route-id="@poll.Id" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-danger" aria-label="Delete @poll.Title">Delete</button>
-                    </form>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Vote" asp-route-id="@poll.Id" class="btn btn-sm btn-info me-2" aria-label="Vote on @poll.Title">Vote</a>
+                        <a asp-action="Edit" asp-route-id="@poll.Id" class="btn btn-sm btn-warning me-2" aria-label="Edit @poll.Title">Edit</a>
+                        <a asp-action="Results" asp-route-id="@poll.Id" class="btn btn-sm btn-primary me-2" aria-label="View results of @poll.Title">Results</a>
+                        <form asp-action="Delete" asp-route-id="@poll.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger" aria-label="Delete @poll.Title">Delete</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-action="Results" asp-route-id="@poll.Id" class="btn btn-sm btn-primary me-2">Results</a>
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-sm btn-outline-info">Login to Vote</a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<div class="d-flex gap-2 mt-4">
-    <a asp-action="Create" class="btn btn-primary" aria-label="Create a new poll">Create New Poll</a>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="d-flex gap-2 mt-4">
+        <a asp-action="Create" class="btn btn-primary" aria-label="Create a new poll">Create New Poll</a>
+    </div>
+}

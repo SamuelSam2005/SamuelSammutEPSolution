@@ -1,4 +1,8 @@
-﻿using Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using Domain;
+using System.Linq;
+
+
 
 namespace DataAccess
 {

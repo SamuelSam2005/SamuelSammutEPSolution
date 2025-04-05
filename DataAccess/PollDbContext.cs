@@ -1,10 +1,10 @@
-﻿using Domain;
-using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;  // For IdentityDbContext
+using Microsoft.EntityFrameworkCore;                      // For DbContext, DbSet
+using Domain;
 
 namespace DataAccess
 {
-    public class PollDbContext : DbContext
+    public class PollDbContext : IdentityDbContext
     {
         public PollDbContext(DbContextOptions<PollDbContext> options)
             : base(options)

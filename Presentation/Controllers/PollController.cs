@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using DataAccess;
 using Domain;
+using Presentation.Filters;
 
 namespace Presentation.Controllers
 {
@@ -83,9 +85,12 @@ namespace Presentation.Controllers
 
         [Authorize]
         [HttpPost]
+        [PreventMultipleVotes]
         public IActionResult Vote(int pollId, int selectedOption)
         {
-            _pollRepository.Vote(pollId, selectedOption);
+            // Get the current user id from claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _pollRepository.Vote(pollId, selectedOption, userId);
             return RedirectToAction("Index");
         }
 

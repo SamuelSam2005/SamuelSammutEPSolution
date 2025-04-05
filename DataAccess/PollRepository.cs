@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Domain;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
-
+using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
     public class PollRepository : IPollRepository
-
     {
         private readonly PollDbContext _context;
 
@@ -62,8 +61,10 @@ namespace DataAccess
             }
         }
 
-        public void Vote(int pollId, int optionNumber)
+        // New vote methods:
+        public void Vote(int pollId, int optionNumber, string userId)
         {
+            // Assumes that duplicate votes are already blocked by the ActionFilter.
             var poll = _context.Polls.FirstOrDefault(p => p.Id == pollId);
             if (poll == null) return;
 
@@ -81,6 +82,26 @@ namespace DataAccess
             }
 
             _context.Polls.Update(poll);
+            _context.SaveChanges();
+
+            // Record the vote
+            RecordVote(pollId, userId);
+        }
+
+        public bool HasUserVoted(int pollId, string userId)
+        {
+            return _context.VoteRecords.Any(v => v.PollId == pollId && v.UserId == userId);
+        }
+
+        public void RecordVote(int pollId, string userId)
+        {
+            var voteRecord = new VoteRecord
+            {
+                PollId = pollId,
+                UserId = userId,
+                VoteDate = DateTime.UtcNow
+            };
+            _context.VoteRecords.Add(voteRecord);
             _context.SaveChanges();
         }
     }

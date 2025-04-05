@@ -9,6 +9,10 @@ namespace DataAccess
         Poll? GetPollById(int id);
         void UpdatePoll(Poll updatedPoll);
         void DeletePoll(int id);
-        void Vote(int pollId, int optionNumber);
+
+        // New vote methods:
+        void Vote(int pollId, int optionNumber, string userId);
+        bool HasUserVoted(int pollId, string userId);
+        void RecordVote(int pollId, string userId);
     }
 }

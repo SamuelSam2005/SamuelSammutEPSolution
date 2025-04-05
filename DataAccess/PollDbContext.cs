@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;  // For IdentityDbContext
-using Microsoft.EntityFrameworkCore;                      // For DbContext, DbSet
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Domain;
 
 namespace DataAccess
@@ -12,5 +12,8 @@ namespace DataAccess
         }
 
         public DbSet<Poll> Polls { get; set; }
+
+        // ✅ You must have this line:
+        public DbSet<VoteRecord> VoteRecords { get; set; }
     }
 }

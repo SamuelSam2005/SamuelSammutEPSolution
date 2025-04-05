@@ -1,0 +1,34 @@
+﻿@model List<Domain.Poll>
+
+@{
+    ViewData["Title"] = "All Polls";
+}
+
+<h2 class="mb-3">All Polls</h2>
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var poll in Model)
+        {
+            <tr>
+                <td>@poll.Title</td>
+                <td>@poll.DateCreated.ToString("g")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@poll.Id" class="btn btn-sm btn-warning me-2">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@poll.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary mt-3">Create New Poll</a>

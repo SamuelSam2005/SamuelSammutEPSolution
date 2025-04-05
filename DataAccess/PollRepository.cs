@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccess;
 using Domain;
-
+using Domain;
 
 namespace DataAccess
 {
@@ -18,6 +15,7 @@ namespace DataAccess
             _context = context;
         }
 
+        // Already done
         public void CreatePoll(string title, string option1Text, string option2Text, string option3Text)
         {
             var poll = new Poll
@@ -35,6 +33,37 @@ namespace DataAccess
             _context.Polls.Add(poll);
             _context.SaveChanges();
         }
+
+        // ✅ Get all polls, sorted by date (LINQ)
+        public List<Poll> GetAllPolls()
+        {
+            return _context.Polls
+                .OrderByDescending(p => p.DateCreated)
+                .ToList();
+        }
+
+        // ✅ Find poll by ID
+        public Poll? GetPollById(int id)
+        {
+            return _context.Polls.FirstOrDefault(p => p.Id == id);
+        }
+
+        // ✅ Update poll
+        public void UpdatePoll(Poll updatedPoll)
+        {
+            _context.Polls.Update(updatedPoll);
+            _context.SaveChanges();
+        }
+
+        // ✅ Delete poll
+        public void DeletePoll(int id)
+        {
+            var poll = _context.Polls.FirstOrDefault(p => p.Id == id);
+            if (poll != null)
+            {
+                _context.Polls.Remove(poll);
+                _context.SaveChanges();
+            }
+        }
     }
 }
-

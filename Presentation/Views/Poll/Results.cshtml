@@ -1,0 +1,53 @@
+﻿@model Domain.Poll
+
+@{
+    ViewData["Title"] = "Poll Results";
+}
+
+<h2 class="mb-4">Results for: @Model.Title</h2>
+
+<canvas id="resultsChart" width="400" height="200"></canvas>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to Polls</a>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('resultsChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    '@Model.Option1Text',
+                    '@Model.Option2Text',
+                    '@Model.Option3Text'
+                ],
+                datasets: [{
+                    label: 'Votes',
+                    data: [
+        @Model.Option1VotesCount,
+        @Model.Option2VotesCount,
+        @Model.Option3VotesCount
+                            ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Vote Distribution' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

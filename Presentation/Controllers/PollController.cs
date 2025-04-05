@@ -81,5 +81,17 @@ namespace Presentation.Controllers
             _pollRepository.Vote(pollId, selectedOption);
             return RedirectToAction("Index");
         }
+
+        // ✅ Step 8: Poll results
+        [HttpGet]
+        public IActionResult Results(int id)
+        {
+            var poll = _pollRepository.GetPollById(id);
+            if (poll == null)
+                return NotFound();
+
+            return View(poll);
+        }
+
     }
 }

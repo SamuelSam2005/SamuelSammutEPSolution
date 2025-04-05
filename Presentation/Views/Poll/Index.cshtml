@@ -21,6 +21,7 @@
                 <td>@poll.Title</td>
                 <td>@poll.DateCreated.ToString("g")</td>
                 <td>
+                    <a asp-action="Vote" asp-route-id="@poll.Id" class="btn btn-sm btn-info me-2">Vote</a>
                     <a asp-action="Edit" asp-route-id="@poll.Id" class="btn btn-sm btn-warning me-2">Edit</a>
                     <form asp-action="Delete" asp-route-id="@poll.Id" method="post" class="d-inline">
                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>

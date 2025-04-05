@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DataAccess;
-using Domain;
-using Domain;
+﻿using Domain;
 
 namespace DataAccess
 {
@@ -15,7 +11,6 @@ namespace DataAccess
             _context = context;
         }
 
-        // Already done
         public void CreatePoll(string title, string option1Text, string option2Text, string option3Text)
         {
             var poll = new Poll
@@ -34,7 +29,6 @@ namespace DataAccess
             _context.SaveChanges();
         }
 
-        // ✅ Get all polls, sorted by date (LINQ)
         public List<Poll> GetAllPolls()
         {
             return _context.Polls
@@ -42,20 +36,17 @@ namespace DataAccess
                 .ToList();
         }
 
-        // ✅ Find poll by ID
         public Poll? GetPollById(int id)
         {
             return _context.Polls.FirstOrDefault(p => p.Id == id);
         }
 
-        // ✅ Update poll
         public void UpdatePoll(Poll updatedPoll)
         {
             _context.Polls.Update(updatedPoll);
             _context.SaveChanges();
         }
 
-        // ✅ Delete poll
         public void DeletePoll(int id)
         {
             var poll = _context.Polls.FirstOrDefault(p => p.Id == id);
@@ -64,6 +55,28 @@ namespace DataAccess
                 _context.Polls.Remove(poll);
                 _context.SaveChanges();
             }
+        }
+
+        public void Vote(int pollId, int optionNumber)
+        {
+            var poll = _context.Polls.FirstOrDefault(p => p.Id == pollId);
+            if (poll == null) return;
+
+            switch (optionNumber)
+            {
+                case 1:
+                    poll.Option1VotesCount++;
+                    break;
+                case 2:
+                    poll.Option2VotesCount++;
+                    break;
+                case 3:
+                    poll.Option3VotesCount++;
+                    break;
+            }
+
+            _context.Polls.Update(poll);
+            _context.SaveChanges();
         }
     }
 }

@@ -23,7 +23,8 @@ namespace Presentation
                 .AddEntityFrameworkStores<PollDbContext>();
 
             // ✅ Register custom repository
-            builder.Services.AddScoped<PollRepository>();
+            builder.Services.AddScoped<IPollRepository, PollRepository>();
+
 
             var app = builder.Build();
 

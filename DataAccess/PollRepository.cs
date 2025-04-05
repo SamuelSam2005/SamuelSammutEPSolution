@@ -2,7 +2,8 @@
 
 namespace DataAccess
 {
-    public class PollRepository
+    public class PollRepository : IPollRepository
+
     {
         private readonly PollDbContext _context;
 

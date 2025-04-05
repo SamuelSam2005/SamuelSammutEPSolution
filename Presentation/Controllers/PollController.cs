@@ -6,9 +6,9 @@ namespace Presentation.Controllers
 {
     public class PollController : Controller
     {
-        private readonly PollRepository _pollRepository;
+        private readonly IPollRepository _pollRepository;
 
-        public PollController(PollRepository pollRepository)
+        public PollController(IPollRepository pollRepository)
         {
             _pollRepository = pollRepository;
         }
@@ -26,7 +26,7 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        private void CreatePoll(PollRepository repo, string title, string o1, string o2, string o3)
+        private void CreatePoll(IPollRepository repo, string title, string o1, string o2, string o3)
         {
             repo.CreatePoll(title, o1, o2, o3);
         }
@@ -64,7 +64,6 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        // ✅ Step 7: Voting logic
         [HttpGet]
         public IActionResult Vote(int id)
         {
@@ -82,7 +81,6 @@ namespace Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        // ✅ Step 8: Poll results
         [HttpGet]
         public IActionResult Results(int id)
         {
@@ -92,6 +90,5 @@ namespace Presentation.Controllers
 
             return View(poll);
         }
-
     }
 }
